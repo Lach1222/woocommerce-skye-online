@@ -31,16 +31,12 @@ class WC_Gateway_Skye_Online extends WC_Payment_Gateway {
     
     $this->notify_url         = WC()->api_request_url( 'WC_Gateway_Skye_Online' );    
 
-    // TODO: Use only what the payment gateway supports.
     $this->supports           = array(      
       'products',
       'default_credit_card_form',
       'refunds',
       'pre-orders'
     );
-
-    // TODO: Replace the transaction url here or use the function 'get_transaction_url' at the bottom.
-    $this->view_transaction_url = 'https://www.domain.com';
 
     // Load the form fields.
     $this->init_form_fields();
@@ -67,7 +63,6 @@ class WC_Gateway_Skye_Online extends WC_Payment_Gateway {
     $this->debug          = $this->get_option( 'debug' );   
     $this->price_widget   = $this->get_option( 'price_widget' ); 
 
-    //$this->wsdl_url       = $this->get_wsdl_url();    
     // Logs.
     if( $this->debug == 'yes' ) {
       if( class_exists( 'WC_Logger' ) ) {
@@ -815,27 +810,7 @@ class WC_Gateway_Skye_Online extends WC_Payment_Gateway {
       $address_name_str = $address_street0[$address_street_count - 3];                                       
       $address_type_str = $address_street0[$address_street_count - 2];                
     }                         
-        
-    /*if (count($address_parts) > 1)
-    {
-      $address_street1 = explode(' ', $address_parts[1]);            
-      $address_street_count = count($address_street1);
-
-      foreach ($address_street1 as $address_value1) {
-        if (is_numeric($address_value1)) 
-        { 
-          $address_no_str = $address_value1;
-        } else {
-          $address_name_str = $address_value1;
-        }
-      } 
-      if ($address_street_count == 1)
-      {
-        $address_type_str = $address_street1[0];
-      } else {
-        $address_type_str = $address_street1[$address_street_count -1]; 
-      }
-    }*/
+            
     $this->log->add( $this->id, 'Address street ->' . $address_no_str . ' ' . $address_name_str . ' ' . $address_type_str);
     $formatted_address = array(           
       'AddressType' => 'Residential', 
