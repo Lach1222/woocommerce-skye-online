@@ -78,7 +78,7 @@ class WC_Gateway_Skye_Online extends WC_Payment_Gateway {
       $this->gateway_url = 'https://cxskyeuat.flexicards.com.au/PromotionSelector?';
     }
     else {
-      $this->wsdl_url = 'https://apply.flexicards.com.au/IPL_service/ipltransaction.asmx?wsdl';
+      $this->wsdl_url = 'https://applications.flexicards.com.au/IPL_service/ipltransaction.asmx?wsdl';
       $this->gateway_url = 'https://apply.flexicards.com.au/PromotionSelector?';
     }    
 
