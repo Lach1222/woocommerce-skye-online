@@ -13,8 +13,8 @@
  * Network:           false
  * GitHub Plugin URI: https://github.com/seb86/WooCommerce-Payment-Gateway-Boilerplate
  *
- * WooCommerce Payment Gateway Boilerlate is distributed under the terms of the 
- * GNU General Public License as published by the Free Software Foundation, 
+ * WooCommerce Payment Gateway Boilerlate is distributed under the terms of the
+ * GNU General Public License as published by the Free Software Foundation,
  * either version 2 of the License, or any later version.
  *
  * WooCommerce Payment Gateway Boilerlate is distributed in the hope that it will be useful,
@@ -96,7 +96,7 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
      * @var    string
      */
      public $web_url = "https://github.com/skyecard/";
-    
+
     /**
      * The Gateway documentation URL.
      *
@@ -172,6 +172,8 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
             add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateway' ) );
             add_filter( 'woocommerce_currencies', array( $this, 'add_currency' ) );
             add_filter( 'woocommerce_currency_symbol', array( $this, 'add_currency_symbol' ), 10, 2 );
+            add_action( 'woocommerce_single_product_summary', array($this, 'add_skye_widget'));
+            add_action( 'woocommerce_cart_totals_after_order_total', array($this, 'add_skye_checkout_price_widget'));
           }
         }
         else {
@@ -181,6 +183,27 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
       }
     }
 
+    /**
+    * Hook function to add skye widget to product page
+    */
+    public function add_skye_widget(){  
+      $skye_online = new WC_Gateway_Skye_Online;  
+      $price_widget = $skye_online->skye_price_widget();
+      if ($price_widget != null){
+        echo $price_widget;
+      }
+    }
+    
+    /**
+    * Hook function to add skye widget to cart page total
+    */
+    public function add_skye_checkout_price_widget(){
+      $skye_online = new WC_Gateway_Skye_Online;
+      $checkout_price_widget = $skye_online->skye_checkout_price_widget();
+      if ($checkout_price_widget != null){
+        echo $checkout_price_widget;
+      }
+    }
     /**
      * Plugin action links.
      *
@@ -224,7 +247,7 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
     /**
      * Load Localisation files.
      *
-     * Note: the first-loaded translation file overrides any 
+     * Note: the first-loaded translation file overrides any
      * following ones if the same translation is present.
      *
      * @access public
@@ -264,7 +287,7 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
      * @return void
      */
     private function includes() {
-      include_once( 'includes/class-wc-gateway-' . str_replace( '_', '-', $this->gateway_slug ) . '.php' );    
+      include_once( 'includes/class-wc-gateway-' . str_replace( '_', '-', $this->gateway_slug ) . '.php' );
     }
 
     /**
@@ -286,8 +309,8 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
     public function add_gateway( $methods ) {
       // This checks if the gateway is supported for your country.
       if( in_array( WC()->countries->get_base_country(), $this->gateway_country_base() ) ) {
-       
-          $methods[] = 'WC_Gateway_' . str_replace( ' ', '_', $this->name );       
+
+          $methods[] = 'WC_Gateway_' . str_replace( ' ', '_', $this->name );
 
       }
 
@@ -297,7 +320,7 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
     /**
      * Add the currency.
      *
-     * @Note   Use this function only if you are adding a new currency. 
+     * @Note   Use this function only if you are adding a new currency.
      *         e.g. STR for Stellar
      * @access public
      * @return array
@@ -310,7 +333,7 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
     /**
      * Add the currency symbol.
      *
-     * @Note   Use this function only when using the function 'add_currency'. 
+     * @Note   Use this function only when using the function 'add_currency'.
      *         If currency has no symbol, leave $currency_symbol blank.
      * @access public
      * @return string
@@ -380,6 +403,18 @@ if( !class_exists( 'WC_Skye_Online' ) ) {
  */
 function WC_Skye_Online() {
 	return WC_Skye_Online::get_instance();
+}
+
+/**
+ * Include street types parser
+ */
+require 'includes/lib/street_types.php';
+
+/**
+ * Returns the instance of WC_Gateway_Skye_Online_Street_Type for parsing the street type
+ */
+function WC_Skye_Online_Street_Type() {
+  return WC_Gateway_Skye_Online_Street_Type::get_instance();
 }
 
 ?>
