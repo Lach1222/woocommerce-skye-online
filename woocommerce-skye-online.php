@@ -11,7 +11,7 @@
  * Text Domain:       woocommerce-skye-online
  * Domain Path:       languages
  * Network:           false
- * GitHub Plugin URI: https://github.com/seb86/WooCommerce-Payment-Gateway-Boilerplate
+ * GitHub Plugin URI: https://github.com/skyecard/woocommerce-skye-online
  *
  * WooCommerce Payment Gateway Boilerlate is distributed under the terms of the
  * GNU General Public License as published by the Free Software Foundation,
